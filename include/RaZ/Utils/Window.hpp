@@ -46,6 +46,8 @@ MAKE_ENUM_FLAG(WindowSetting)
 
 /// Graphical window to render the scenes on, with input custom actions.
 class Window {
+  friend class RenderSystem;
+
 public:
   /// Creates a window.
   /// \param width Width of the window.
@@ -134,7 +136,7 @@ public:
   void updateCallbacks() const;
 #if defined(RAZ_USE_OVERLAY)
   /// Enables the overlay.
-  void enableOverlay() { m_overlay = Overlay::create(m_window); }
+  void enableOverlay() { m_overlay = Overlay::create(m_windowHandle); }
   /// Disables the overlay.
   void disableOverlay() { m_overlay.reset(); }
   /// Adds a label on the overlay.
@@ -200,7 +202,7 @@ private:
   unsigned int m_height {};
   Vec4f m_clearColor = Vec4f(0.15f, 0.15f, 0.15f, 1.f);
 
-  GLFWwindow* m_window {};
+  GLFWwindow* m_windowHandle {};
   InputCallbacks m_callbacks {};
 
 #if defined(RAZ_USE_OVERLAY)
