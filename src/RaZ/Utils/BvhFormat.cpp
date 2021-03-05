@@ -84,6 +84,40 @@ void loadJoint(std::ifstream& file, std::unordered_map<std::string, SkeletonJoin
   }
 }
 
+void loadAnimation(std::ifstream& file, Animation& animation) {
+  std::string token;
+
+  file >> token;
+  if (token != "MOTION")
+    throw std::invalid_argument("Error: Invalid BVH animation declaration");
+
+  file >> token;
+  if (token != "Frames:")
+    throw std::invalid_argument("Error: Invalid BVH animation frame count declaration");
+
+  file >> token;
+  const int frameCount = std::stoi(token);
+  if (frameCount <= 0)
+    throw std::invalid_argument("Error: Invalid BVH animation frame count");
+  std::getline(file, token);
+
+  std::getline(file, token, ':');
+  if (token != "Frame Time")
+    throw std::invalid_argument("Error: Invalid BVH animation frame time declaration");
+  file.ignore(1);
+
+  file >> token;
+  const float frameTime = std::stof(token);
+  if (frameTime <= 0.f)
+    throw std::invalid_argument("Error: Invalid BVH animation frame time");
+  std::getline(file, token);
+
+  for (int i = 0; i < frameCount; ++i)
+    animation.addKeyframe().setKeyTime(frameTime);
+
+  // TODO: import animation data
+}
+
 } // namespace
 
 void BvhFormat::import(const FilePath& filePath) {
@@ -140,7 +174,7 @@ void BvhFormat::import(const FilePath& filePath) {
   loadJoint(file, joints, skeleton, rootJoint);
   std::getline(file, token); // Root joint's closing scope
 
-  // TODO: import animation
+  loadAnimation(file, animation);
 }
 
 } // namespace Raz
