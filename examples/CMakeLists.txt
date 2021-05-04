@@ -34,6 +34,9 @@ endif ()
 
 target_compile_options(RaZ_Examples INTERFACE ${RAZ_EXAMPLES_DISABLED_WARNINGS})
 
+add_executable(RaZ_MetalDemo metalDemo.cpp)
+target_link_libraries(RaZ_MetalDemo RaZ_Examples)
+
 add_executable(RaZ_DeferredDemo deferredDemo.cpp)
 target_link_libraries(RaZ_DeferredDemo RaZ_Examples)
 
@@ -58,6 +61,7 @@ if (RAZ_USE_EMSCRIPTEN)
     set_target_properties(RaZ_MinDemo      PROPERTIES SUFFIX ".html")
     set_target_properties(RaZ_PhysicsDemo  PROPERTIES SUFFIX ".html")
     set_target_properties(RaZ_ShowcaseDemo PROPERTIES SUFFIX ".html")
+    set_target_properties(RaZ_MetalDemo    PROPERTIES SUFFIX ".html")
     set_target_properties(RaZ_SoundDemo    PROPERTIES SUFFIX ".html")
 
     include(EmscriptenAssets.cmake)
@@ -71,4 +75,5 @@ if (MSVC AND RAZ_USE_FBX AND FBX_FOUND)
     add_custom_command(TARGET RaZ_FullDemo     PRE_LINK COMMAND ${DLL_COPY_COMMAND})
     add_custom_command(TARGET RaZ_MinDemo      PRE_LINK COMMAND ${DLL_COPY_COMMAND})
     add_custom_command(TARGET RaZ_ShowcaseDemo PRE_LINK COMMAND ${DLL_COPY_COMMAND})
+    add_custom_command(TARGET RaZ_MetalDemo    PRE_LINK COMMAND ${DLL_COPY_COMMAND})
 endif ()

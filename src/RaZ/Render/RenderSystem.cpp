@@ -171,6 +171,8 @@ void RenderSystem::linkEntity(const EntityPtr& entity) {
 void RenderSystem::initialize() {
 #if defined(RAZ_USE_VULKAN) && defined(RAZ_USE_WINDOW)
   Renderer::initialize((m_window ? m_window->m_windowHandle : nullptr));
+#elif defined (RAZ_USE_METAL) && defined(RAZ_USE_WINDOW)
+  Renderer::initialize((m_window ? m_window->m_windowHandle : nullptr));
 #else
   Renderer::initialize();
 #endif

@@ -68,6 +68,7 @@ if (WIN32 OR CYGWIN)
 elseif (APPLE)
     set(RAZ_PLATFORM "macOS")
     set(RAZ_PLATFORM_MAC ON)
+    set(RAZ_USE_METAL ON)
     target_compile_definitions(RaZ PUBLIC RAZ_PLATFORM_MAC)
 elseif (RAZ_USE_EMSCRIPTEN)
     set(RAZ_PLATFORM "Emscripten")
@@ -334,6 +335,29 @@ if (RAZ_USE_GL4)
     endif ()
 endif ()
 
+option(RAZ_USE_METAL "Use Metal for rendering" ON)
+if (RAZ_USE_METAL)
+    if (RAZ_PLATFORM_MAC)
+            message(STATUS "[RaZ] Using Metal 2.0")
+            target_compile_definitions(RaZ PRIVATE RAZ_USE_METAL)
+            enable_language(OBJC)
+            enable_language(OBJCXX)
+            set(CMAKE_OBJCXX_FLAGS "-x objective-c++")
+            target_link_libraries(RaZ PRIVATE "-framework Metal" "-framework MetalKit" "-framework Foundation" "-framework Cocoa")
+            file(
+                GLOB
+                RAZ_API_FILES
+
+                ${CMAKE_CURRENT_SOURCE_DIR}/include/RaZ/Render/OpenGL/*
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/RaZ/Render/OpenGL/*
+                ${CMAKE_CURRENT_SOURCE_DIR}/include/RaZ/Render/Metal/*
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/RaZ/Render/Metal/*
+            )
+    else()
+        message(SEND_ERROR "[RaZ] Error : Cannot use Metal on a non Apple device.")
+    endif()
+endif() 
+
 option(RAZ_USE_VULKAN "Use Vulkan for rendering" OFF)
 if (RAZ_USE_VULKAN)
     if (RAZ_USE_GL4) # If GL4 has also been asked to be used, ignore it
@@ -467,15 +491,6 @@ if (RAZ_USE_VULKAN)
         set(VULKAN_SDK_ROOT "" CACHE PATH "Path to your Vulkan SDK installation")
         message(SEND_ERROR "[RaZ] Error: Vulkan SDK not found, please specify its installation path manually.")
     endif ()
-else ()
-    # Adding OpenGL-specific files
-    file(
-        GLOB
-        RAZ_API_FILES
-
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RaZ/Render/OpenGL/*
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/RaZ/Render/OpenGL/*
-    )
 endif ()
 
 list(

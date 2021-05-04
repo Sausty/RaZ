@@ -27,7 +27,7 @@ Window::Window(unsigned int width, unsigned int height,
   if (!glfwInit())
     throw std::runtime_error("Error: Failed to initialize GLFW");
 
-#if defined(RAZ_USE_VULKAN)
+#if defined(RAZ_USE_VULKAN) || defined(RAZ_USE_METAL)
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 #else
   // Using OpenGL
@@ -38,7 +38,7 @@ Window::Window(unsigned int width, unsigned int height,
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
-#if defined(RAZ_PLATFORM_MAC) // Setting the OpenGL forward compatibility is required on macOS
+#if defined(RAZ_PLATFORM_MAC) && !defined(RAZ_USE_METAL) // Setting the OpenGL forward compatibility is required on macOS
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true);
 #endif
 
@@ -72,7 +72,7 @@ Window::Window(unsigned int width, unsigned int height,
     throw std::runtime_error("Error: Failed to create GLFW Window");
   }
 
-#if defined(RAZ_USE_VULKAN)
+#if defined(RAZ_USE_VULKAN) || defined(RAZ_USE_METAL)
   Renderer::initialize(m_windowHandle);
 #else
   glfwMakeContextCurrent(m_windowHandle); // Making context current is only necessary with OpenGL
@@ -109,6 +109,7 @@ void Window::resize(unsigned int width, unsigned int height) {
 
 void Window::enableFaceCulling(bool value) const {
 #if !defined(RAZ_USE_VULKAN)
+#elif !defined(RAZ_USE_METAL)
   if (value)
     Renderer::enable(Capability::CULL);
   else
@@ -120,6 +121,7 @@ void Window::enableFaceCulling(bool value) const {
 
 bool Window::recoverVerticalSyncState() const {
 #if !defined(RAZ_USE_VULKAN)
+#elif !defined(RAZ_USE_METAL)
 #if defined(RAZ_PLATFORM_WINDOWS)
   if (wglGetExtensionsStringEXT())
     return static_cast<bool>(wglGetSwapIntervalEXT());
@@ -142,6 +144,7 @@ bool Window::recoverVerticalSyncState() const {
 
 void Window::enableVerticalSync([[maybe_unused]] bool value) const {
 #if !defined(RAZ_USE_VULKAN)
+#elif !defined(RAZ_USE_METAL)
 #if defined(RAZ_PLATFORM_WINDOWS)
   if (wglGetExtensionsStringEXT()) {
     wglSwapIntervalEXT(static_cast<int>(value));
@@ -335,7 +338,7 @@ bool Window::run(float deltaTime) {
     m_overlay->render();
 #endif
 
-#if !defined(RAZ_USE_VULKAN)
+#if !defined(RAZ_USE_VULKAN) && !defined(RAZ_USE_METAL)
   glfwSwapBuffers(m_windowHandle);
 
 #if defined(RAZ_PLATFORM_EMSCRIPTEN)
