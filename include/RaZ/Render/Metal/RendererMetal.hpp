@@ -453,6 +453,13 @@ public:
   static void initialize(GLFWwindow* windowHandle = nullptr);
   static bool isInitialized() { return s_isInitialized; }
 
+  // Metal specific functions
+  static void createDevice();
+  static void createSurfaceFromCocoa();
+  static void initDepthTexture();
+
+  static void initialiseDepthFunctions();
+
   // TODO: temporary GL functions to allow compilation
 
   static unsigned int getCurrentProgram() { return 0; }
@@ -460,8 +467,8 @@ public:
   static void clear(MaskType);
   static void clear(MaskType, MaskType) {}
   static void endRendering();
-  static void setDepthFunction(DepthFunction) {}
-  static void setFaceCulling(CullingMode) {}
+  static void setDepthFunction(DepthFunction function);
+  static void setFaceCulling(CullingMode);
 #if !defined(USE_OPENGL_ES)
   static void setPolygonMode(CullingMode, PolygonMode) {}
 #endif
