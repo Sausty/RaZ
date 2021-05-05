@@ -29,11 +29,11 @@ int main() {
 
 #if !defined(USE_OPENGL_ES)
   // Allow wireframe toggling
-  bool isWireframe = false;
-  window.addKeyCallback(Raz::Keyboard::Z, [&isWireframe] (float /* deltaTime */) {
-    isWireframe = !isWireframe;
-    Raz::Renderer::setPolygonMode(Raz::CullingMode::FRONT_BACK, (isWireframe ? Raz::PolygonMode::LINE : Raz::PolygonMode::FILL));
-  }, Raz::Input::ONCE);
+  // bool isWireframe = false;
+  // window.addKeyCallback(Raz::Keyboard::Z, [&isWireframe] (float /* deltaTime */) {
+  //   isWireframe = !isWireframe;
+  //   Raz::Renderer::setPolygonMode(Raz::CullingMode::FRONT_BACK, (isWireframe ? Raz::PolygonMode::LINE : Raz::PolygonMode::FILL));
+  // }, Raz::Input::ONCE);
 #endif
 
   // Allowing to quit the application with the Escape key

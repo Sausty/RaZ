@@ -265,11 +265,11 @@ int main() {
 
 #if !defined(USE_OPENGL_ES)
   // Toggling the wireframe rendering's state
-  bool isWireframe = false;
-  window.addKeyCallback(Raz::Keyboard::Z, [&isWireframe] (float /* deltaTime */) {
-    isWireframe = !isWireframe;
-    Raz::Renderer::setPolygonMode(Raz::CullingMode::FRONT_BACK, (isWireframe ? Raz::PolygonMode::LINE : Raz::PolygonMode::FILL));
-  }, Raz::Input::ONCE);
+  // bool isWireframe = false;
+  // window.addKeyCallback(Raz::Keyboard::Z, [&isWireframe] (float /* deltaTime */) {
+  //   isWireframe = !isWireframe;
+  //   Raz::Renderer::setPolygonMode(Raz::CullingMode::FRONT_BACK, (isWireframe ? Raz::PolygonMode::LINE : Raz::PolygonMode::FILL));
+  // }, Raz::Input::ONCE);
 #endif
 
   // Toggling the render pass' enabled state

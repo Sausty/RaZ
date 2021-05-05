@@ -571,6 +571,7 @@ public:
   static void clearColor(float, float, float, float) {}
   static void clear(MaskType) {}
   static void clear(MaskType, MaskType) {}
+  static void endRendering() {}
   static void setDepthFunction(DepthFunction) {}
   static void setFaceCulling(CullingMode) {}
   static void setPolygonMode(CullingMode, PolygonMode) {}

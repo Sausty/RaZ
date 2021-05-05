@@ -456,12 +456,15 @@ public:
   // TODO: temporary GL functions to allow compilation
 
   static unsigned int getCurrentProgram() { return 0; }
-  static void clearColor(float, float, float, float) {}
-  static void clear(MaskType) {}
+  static void clearColor(float, float, float, float);
+  static void clear(MaskType);
   static void clear(MaskType, MaskType) {}
+  static void endRendering();
   static void setDepthFunction(DepthFunction) {}
   static void setFaceCulling(CullingMode) {}
+#if !defined(USE_OPENGL_ES)
   static void setPolygonMode(CullingMode, PolygonMode) {}
+#endif
   static void recoverFrame(unsigned int, unsigned int, TextureFormat, TextureDataType, void*) {}
   static void generateBuffer(unsigned int&) {}
   static void bindBuffer(BufferType, unsigned int) {}

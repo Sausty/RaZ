@@ -32,15 +32,22 @@ RenderPass& RenderSystem::addRenderPass(FragmentShader fragShader) {
 }
 
 bool RenderSystem::update([[maybe_unused]] float deltaTime) {
-  m_renderGraph.execute(*this);
-
-#if defined(RAZ_CONFIG_DEBUG) && !defined(SKIP_RENDERER_ERRORS)
-  Renderer::printErrors();
-#endif
 
 #if defined(RAZ_USE_WINDOW)
   if (m_window)
-    return m_window->run(deltaTime);
+    m_window->run(deltaTime);
+#endif
+
+  Renderer::clear(MaskType::COLOR | MaskType::DEPTH);
+  Renderer::clearColor(m_window->m_clearColor[0], m_window->m_clearColor[1], m_window->m_clearColor[2], m_window->m_clearColor[3]);
+
+  if (m_renderGraph.isValid())
+    m_renderGraph.execute(*this);
+
+  Renderer::endRendering();
+
+#if defined(RAZ_CONFIG_DEBUG) && !defined(SKIP_RENDERER_ERRORS)
+  Renderer::printErrors();
 #endif
 
   return true;

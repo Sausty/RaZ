@@ -468,6 +468,7 @@ public:
   static void clearColor(float red, float green, float blue, float alpha);
   static void clearColor(float values[4]) { clearColor(values[0], values[1], values[2], values[3]); }
   static void clear(MaskType mask);
+  static void endRendering() {}
   static void setDepthFunction(DepthFunction func);
   static void setFaceCulling(CullingMode cullMode);
 #if !defined(USE_OPENGL_ES)

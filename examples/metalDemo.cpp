@@ -4,7 +4,7 @@ using namespace std::literals;
 
 int main() {
   Raz::Application app;
-  Raz::World& world = app.addWorld(2);
+  Raz::World& world = app.addWorld(10);
 
   auto& render = world.addSystem<Raz::RenderSystem>(1280, 720, "RaZ");
 

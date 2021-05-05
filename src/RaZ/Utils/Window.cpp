@@ -345,8 +345,6 @@ bool Window::run(float deltaTime) {
   emscripten_webgl_commit_frame();
 #endif
 
-  Renderer::clearColor(m_clearColor[0], m_clearColor[1], m_clearColor[2], m_clearColor[3]);
-  Renderer::clear(MaskType::COLOR | MaskType::DEPTH);
 #endif
 
   return true;

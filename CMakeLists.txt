@@ -343,13 +343,15 @@ if (RAZ_USE_METAL)
             enable_language(OBJC)
             enable_language(OBJCXX)
             set(CMAKE_OBJCXX_FLAGS "-x objective-c++")
-            target_link_libraries(RaZ PRIVATE "-framework Metal" "-framework MetalKit" "-framework Foundation" "-framework Cocoa")
+            target_link_libraries(RaZ PRIVATE "-framework Metal" "-framework MetalKit" "-framework Foundation" "-framework Cocoa" "-framework QuartzCore")
             file(
                 GLOB
                 RAZ_API_FILES
 
-                ${CMAKE_CURRENT_SOURCE_DIR}/include/RaZ/Render/OpenGL/*
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/RaZ/Render/OpenGL/*
+                ${CMAKE_CURRENT_SOURCE_DIR}/include/RaZ/Render/OpenGL/ShaderGL.hpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/RaZ/Render/OpenGL/ShaderGL.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/include/RaZ/Render/OpenGL/UniformBufferGL.hpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/RaZ/Render/OpenGL/UniformBufferGL.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/include/RaZ/Render/Metal/*
                 ${CMAKE_CURRENT_SOURCE_DIR}/src/RaZ/Render/Metal/*
             )
